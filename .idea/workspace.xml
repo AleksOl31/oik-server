@@ -4,7 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6bec1d5-17b4-4835-8823-1b2f3acb6dfc" name="Changes" comment="" />
+    <list default="true" id="d6bec1d5-17b4-4835-8823-1b2f3acb6dfc" name="Changes" comment="Initial commit">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/development.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/free-icon-circuit-board-4350670.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/free-icon-cpu-4651432.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/free-icon-development-1237434.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/free-icon-gears-868694.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/free-icon-settings-1085005.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/free-icon-settings-780552.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/OikServerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/database/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/database/DatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/portreceiver/EquipmentOperationReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/portreceiver/EquipmentOperationReceiver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/portreceiver/PortListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/portreceiver/PortListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/portreceiver/SerialPortReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/portreceiver/SerialPortReceiver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ru/alexanna/oikserver/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ru/alexanna/oikserver/main-view.fxml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +31,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
@@ -28,12 +50,54 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/proc.LGOK/IdeaProjects/oik-server/src/main/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.37241378",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\proc.LGOK\IdeaProjects\oik-server\src\main\resources" />
+      <recent name="C:\Users\proc.LGOK\IdeaProjects\oik-server\src\main\java\ru\alexanna\oikserver\portreceiver" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="ru.alexanna.oikserver.database" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="OikServerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ru.alexanna.oikserver.OikServerApplication" />
+      <module name="oik-server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.alexanna.oikserver.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.OikServerApplication" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -42,8 +106,24 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1710410393426</updated>
-      <workItem from="1710410394667" duration="3000" />
+      <workItem from="1710410394667" duration="1203000" />
+      <workItem from="1710411646237" duration="12055000" />
+      <workItem from="1710487990677" duration="11199000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

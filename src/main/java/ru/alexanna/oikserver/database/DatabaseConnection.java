@@ -1,4 +1,4 @@
-package ru.alexanna.lib.database;
+package ru.alexanna.oikserver.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

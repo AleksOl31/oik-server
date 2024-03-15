@@ -1,4 +1,4 @@
-package ru.alexanna.lib.portreceiver;
+package ru.alexanna.oikserver.portreceiver;
 
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
