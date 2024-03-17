@@ -22,7 +22,7 @@ public class EquipmentOperationReceiver extends SerialPortReceiver {
     }
 
     @Override
-    void completeReceivingProcess() throws SerialPortException {
+    void receive() throws SerialPortException {
             for (Integer address : getAddresses()) {
                 sendRequest(address);
                 byte[] acceptBytes = acceptAnswer(ANSWER_BYTE_NUMBER);

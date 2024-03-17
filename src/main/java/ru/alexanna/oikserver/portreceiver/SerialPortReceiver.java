@@ -27,7 +27,7 @@ public abstract class SerialPortReceiver implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(SerialPortReceiver.class);
 
     abstract byte[] createRequest(int chkPntAddress);
-    abstract void completeReceivingProcess() throws SerialPortException;
+    abstract void receive() throws SerialPortException;
 
     public SerialPortReceiver() {}
 
@@ -46,7 +46,7 @@ public abstract class SerialPortReceiver implements Runnable {
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                completeReceivingProcess();
+                receive();
                 setReceivedBytes(receivedByteCollector);
             } catch (SerialPortException e) {
                 log.error(e.getMessage());

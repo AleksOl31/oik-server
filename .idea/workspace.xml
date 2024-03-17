@@ -4,15 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6bec1d5-17b4-4835-8823-1b2f3acb6dfc" name="Changes" comment="Initial commit">
+    <list default="true" id="d6bec1d5-17b4-4835-8823-1b2f3acb6dfc" name="Changes" comment="Рефакторинг">
+      <change afterPath="$PROJECT_DIR$/oik-server.puml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/MainController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/portreceiver/EquipmentOperationReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/portreceiver/EquipmentOperationReceiver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/portreceiver/SerialPortReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/portreceiver/SerialPortReceiver.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="UML Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -33,31 +41,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/proc.LGOK/IdeaProjects/oik-server/src/main/resources&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.37241378&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultPlantUmlFileTemplate": "UML Class",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/proc.LGOK/IdeaProjects/oik-server/src/main/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.37241378",
+    "settings.editor.selected.configurable": "proofread",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\proc.LGOK\IdeaProjects\oik-server\src\main\resources" />
       <recent name="C:\Users\proc.LGOK\IdeaProjects\oik-server\src\main\java\ru\alexanna\oikserver\portreceiver" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="ru.alexanna.oikserver.database" />
@@ -94,8 +107,18 @@
       <workItem from="1710410394667" duration="1203000" />
       <workItem from="1710411646237" duration="12055000" />
       <workItem from="1710487990677" duration="11199000" />
-      <workItem from="1710515888221" duration="7621000" />
+      <workItem from="1710515888221" duration="12731000" />
+      <workItem from="1710692521602" duration="178000" />
+      <workItem from="1710692752496" duration="7243000" />
     </task>
+    <task id="LOCAL-00001" summary="Рефакторинг">
+      <created>1710683683998</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1710683683998</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -111,5 +134,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Рефакторинг" />
+    <option name="LAST_COMMIT_MESSAGE" value="Рефакторинг" />
   </component>
 </project>

@@ -1,0 +1,60 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface Receiver {
+{abstract} receive(int)
+{abstract} stopReceiving()
+}
+
+interface Runnable {
+{abstract} run()
+}
+
+Receiver -right--|> Runnable
+abstract class SerialPortReceiver implements Receiver {
+{abstract} createRequest(int)
+}
+class EquipmentOperationReceiver extends SerialPortReceiver
+class ElectricityReceiver extends SerialPortReceiver
+
+class MainModel {
+-List<Receiver> receivers
+-Persistable persistable
+startReceiving()
+stopReceiving()
+}
+
+interface Persistable {
+{abstract} persist(Map<Integer, byte[]>, period)
+}
+
+MainModel -right--> Receiver
+MainModel -left--> Persistable
+
+
+
+
+'abstract class AbstractList
+'abstract AbstractCollection
+'interface List
+'interface Collection
+'
+'List <|-- AbstractList
+'Collection <|-- AbstractCollection
+'
+'Collection <|- List
+'AbstractCollection <|- AbstractList
+'AbstractList <|-- ArrayList
+'
+'class ArrayList {
+'Object[] elementData
+'size()
+'}
+'
+'enum TimeUnit {
+'DAYS
+'HOURS
+'MINUTES
+'}
+
+@enduml
