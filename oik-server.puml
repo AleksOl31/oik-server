@@ -10,7 +10,7 @@ interface Runnable {
 {abstract} run()
 }
 
-Receiver -right--|> Runnable
+Receiver -up--|> Runnable
 abstract class SerialPortReceiver implements Receiver {
 {abstract} createRequest(int)
 }
