@@ -2,8 +2,6 @@ package ru.alexanna.oikserver;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import jssc.SerialPortException;
@@ -25,7 +23,7 @@ public class MainController implements Initializable {
     protected void onHelloButtonClick() {
 
         log.debug("Logger");
-        EquipmentOperationReceiver receiver = new EquipmentOperationReceiver(30);
+        EquipmentOperationReceiver receiver = new EquipmentOperationReceiver();
         List<String> portNames = receiver.getPortNames();
         log.debug("Ports {}", portNames);
         String portName = portNames.get(1);

@@ -5,24 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d6bec1d5-17b4-4835-8823-1b2f3acb6dfc" name="Changes" comment="Initial commit">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/development.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/free-icon-circuit-board-4350670.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/free-icon-cpu-4651432.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/free-icon-development-1237434.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/free-icon-gears-868694.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/free-icon-settings-1085005.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/free-icon-settings-780552.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/OikServerApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/database/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/database/DatabaseConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/portreceiver/EquipmentOperationReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/portreceiver/EquipmentOperationReceiver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/portreceiver/PortListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/portreceiver/PortListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/portreceiver/SerialPortReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/alexanna/oikserver/portreceiver/SerialPortReceiver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ru/alexanna/oikserver/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ru/alexanna/oikserver/main-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,27 +33,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/proc.LGOK/IdeaProjects/oik-server/src/main/resources",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.37241378",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/proc.LGOK/IdeaProjects/oik-server/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.37241378&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\proc.LGOK\IdeaProjects\oik-server\src\main\resources" />
@@ -109,6 +94,7 @@
       <workItem from="1710410394667" duration="1203000" />
       <workItem from="1710411646237" duration="12055000" />
       <workItem from="1710487990677" duration="11199000" />
+      <workItem from="1710515888221" duration="7621000" />
     </task>
     <servers />
   </component>
