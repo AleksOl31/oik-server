@@ -46,11 +46,6 @@ public abstract class SerialPortReceiver implements Receiver {
 
     @Override
     public void run() {
-        try {
-            openPort();
-        } catch (SerialPortException e) {
-            throw new RuntimeException(e);
-        }
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 receive();
@@ -74,11 +69,16 @@ public abstract class SerialPortReceiver implements Receiver {
 
     @Override
     public void startReceiving() {
-        receivingThread = new Thread(this);
-        log.debug("Thread state (start startReceiving) {}", receivingThread.getState());
+        try {
+            openPort();
+            receivingThread = new Thread(this);
+            log.debug("Thread state (start startReceiving) {}", receivingThread.getState());
 //        receivingThread.setName("Thread-" + port.getPortName());
-        receivingThread.start();
-        log.debug("Thread state (end sR) {}", receivingThread.getState());
+            receivingThread.start();
+            log.debug("Thread state (end sR) {}", receivingThread.getState());
+        } catch (SerialPortException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
