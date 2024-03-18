@@ -16,7 +16,7 @@ import static jssc.SerialPort.STOPBITS_1;
 
 
 @SuppressWarnings("unused")
-public abstract class SerialPortReceiver implements Runnable {
+public abstract class SerialPortReceiver implements Receiver {
 
     private SerialPort port;
     private int baudRate;
@@ -24,6 +24,7 @@ public abstract class SerialPortReceiver implements Runnable {
     private List<Integer> addresses;
     private final Map<Integer, byte[]> receivedByteCollector = new HashMap<>();
     private volatile Map<Integer, byte[]> bytesReceived;
+    private Thread receivingThread;
     private static final Logger log = LoggerFactory.getLogger(SerialPortReceiver.class);
 
     abstract byte[] createRequest(int chkPntAddress);
@@ -36,6 +37,7 @@ public abstract class SerialPortReceiver implements Runnable {
         setPortParams(portName, baudRate, parity);
     }
 
+    @Override
     public void setPortParams(String portName, int baudRate, boolean parity) {
         this.port = new SerialPort(portName);
         this.baudRate = baudRate;
@@ -44,6 +46,11 @@ public abstract class SerialPortReceiver implements Runnable {
 
     @Override
     public void run() {
+        try {
+            openPort();
+        } catch (SerialPortException e) {
+            throw new RuntimeException(e);
+        }
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 receive();
@@ -57,8 +64,24 @@ public abstract class SerialPortReceiver implements Runnable {
         } catch (SerialPortException e) {
             log.error(e.getMessage());
         }
+        log.debug("Thread state (run) {}", receivingThread.getState());
     }
 
+    @Override
+    public void stopReceiving() {
+        receivingThread.interrupt();
+    }
+
+    @Override
+    public void startReceiving() {
+        receivingThread = new Thread(this);
+        log.debug("Thread state (start startReceiving) {}", receivingThread.getState());
+//        receivingThread.setName("Thread-" + port.getPortName());
+        receivingThread.start();
+        log.debug("Thread state (end sR) {}", receivingThread.getState());
+    }
+
+    @Override
     public void setAddresses(List<Integer> addresses) {
         this.addresses = addresses;
     }

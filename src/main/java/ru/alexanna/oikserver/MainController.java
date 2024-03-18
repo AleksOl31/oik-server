@@ -2,28 +2,34 @@ package ru.alexanna.oikserver;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import jssc.SerialPortException;
+import javafx.scene.control.Button;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.alexanna.oikserver.portreceiver.EquipmentOperationReceiver;
+import ru.alexanna.oikserver.models.MainModel;
 
 import java.net.URL;
 import java.util.*;
 
 
 public class MainController implements Initializable {
-    @FXML
-    private VBox rootVB;
+    private final MainModel mainModel;
 
     private static final Logger log = LoggerFactory.getLogger(MainController.class);
-
     @FXML
-    protected void onHelloButtonClick() {
+    private Button startBtn;
 
-        log.debug("Logger");
-        EquipmentOperationReceiver receiver = new EquipmentOperationReceiver();
+    public MainController() {
+        this.mainModel = new MainModel();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
+
+    public void startBtnClick() {
+        mainModel.startAllReceivers();
+/*        log.debug("Logger");
+        SerialPortReceiver receiver = new EquipmentOperationReceiver();
         List<String> portNames = receiver.getPortNames();
         log.debug("Ports {}", portNames);
         String portName = portNames.get(1);
@@ -45,15 +51,10 @@ public class MainController implements Initializable {
                 log.info("Map {}", bytes);
 //                bytes.forEach((key, val) -> log.info("{} - {}", key, receiver.getLogString(val)));
             }
-        }, 1000, 1000);
+        }, 1000, 1000);*/
     }
 
-    public MainController() {
-
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        rootVB.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5.0))));
+    public void stopBtnClick() {
+        mainModel.stopAllReceivers();
     }
 }

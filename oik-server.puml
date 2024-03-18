@@ -2,7 +2,7 @@
 'https://plantuml.com/class-diagram
 
 interface Receiver {
-{abstract} receive(int)
+{abstract} startReceiving()
 {abstract} stopReceiving()
 }
 
@@ -18,43 +18,22 @@ class EquipmentOperationReceiver extends SerialPortReceiver
 class ElectricityReceiver extends SerialPortReceiver
 
 class MainModel {
--List<Receiver> receivers
--Persistable persistable
 startReceiving()
 stopReceiving()
 }
 
-interface Persistable {
-{abstract} persist(Map<Integer, byte[]>, period)
+class MainController {
+}
+
+interface DataStore {
+{abstract} List<T> findAll()
+{abstract} save(Map<Integer, byte[]>)
+{abstract} add(Port)
+{abstract} update(Port)
 }
 
 MainModel -right--> Receiver
-MainModel -left--> Persistable
-
-
-
-
-'abstract class AbstractList
-'abstract AbstractCollection
-'interface List
-'interface Collection
-'
-'List <|-- AbstractList
-'Collection <|-- AbstractCollection
-'
-'Collection <|- List
-'AbstractCollection <|- AbstractList
-'AbstractList <|-- ArrayList
-'
-'class ArrayList {
-'Object[] elementData
-'size()
-'}
-'
-'enum TimeUnit {
-'DAYS
-'HOURS
-'MINUTES
-'}
+MainModel -left--> DataStore
+MainModel <--* MainController
 
 @enduml
