@@ -2,13 +2,13 @@ package ru.alexanna.oikserver;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldListCell;
+import javafx.util.StringConverter;
 import jssc.SerialPortException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.alexanna.oikserver.entities.CheckPoint;
 import ru.alexanna.oikserver.entities.Port;
 import ru.alexanna.oikserver.models.MainModel;
 
@@ -20,6 +20,8 @@ public class MainController implements Initializable {
     private final MainModel mainModel;
 
     private static final Logger log = LoggerFactory.getLogger(MainController.class);
+    @FXML
+    private ListView<CheckPoint> checkPointsListView;
     @FXML
     private TableView<Port> portsTableView;
     @FXML
@@ -47,11 +49,31 @@ public class MainController implements Initializable {
 
     public void setup() {
         portsTableInitialize();
+        checkPointsListViewInitialize();
     }
 
     private void portsTableInitialize() {
         portsTableView.setPlaceholder(new Label("Информация о портах отсутствует"));
         portsTableView.itemsProperty().bindBidirectional(mainModel.getPortsProperty());
+        portsTableView.getSelectionModel().selectedItemProperty().addListener((
+                (observableValue, oldPort, newPort) -> mainModel.setSelectedPort(newPort)));
+//        portsTableView.getSelectionModel().selectFirst();
+    }
+
+    private void checkPointsListViewInitialize() {
+        checkPointsListView.setPlaceholder(new Label("ТМКП не зарегистрированы"));
+        checkPointsListView.itemsProperty().bind(mainModel.getCheckPointsProperty());
+        checkPointsListView.setCellFactory(TextFieldListCell.forListView(new StringConverter<CheckPoint>() {
+            @Override
+            public String toString(CheckPoint checkPoint) {
+                return checkPoint.getAddress().toString();
+            }
+
+            @Override
+            public CheckPoint fromString(String s) {
+                return null;
+            }
+        }));
     }
 
     public void startBtnClick() {
@@ -64,6 +86,5 @@ public class MainController implements Initializable {
 
     public void stopBtnClick() {
         mainModel.stopReceiving();
-
     }
 }

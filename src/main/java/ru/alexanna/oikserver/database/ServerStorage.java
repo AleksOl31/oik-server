@@ -58,7 +58,6 @@ public class ServerStorage {
                 port.setKtms(resultSet.getString("ktms"));
                 port.setCheckPoints(findCheckPointsBy(port.getId()));
                 ports.add(port);
-                log.debug("{}", port);
             }
         } catch (SQLException e) {
             log.error("findAllPorts {}", e.getMessage());
