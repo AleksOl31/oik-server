@@ -16,10 +16,13 @@
    <center>
        <SplitPane dividerPositions="0.3" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-               <TableView layoutX="67.0" layoutY="-36.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="0.0">
+               <TableView fx:id="portsTableView" layoutX="67.0" layoutY="-36.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="0.0">
                    <columns>
-                       <TableColumn prefWidth="75.0" text="C1" />
-                       <TableColumn prefWidth="75.0" text="C2" />
+                       <TableColumn fx:id="portNameColumn" prefWidth="125.0" text="Имя COM порта" />
+                       <TableColumn fx:id="baudColumn" prefWidth="124.0" text="Скорость (бод)" />
+                  <TableColumn fx:id="parityColumn" minWidth="0.0" prefWidth="114.0" text="Четность" />
+                  <TableColumn fx:id="ktmsColumn" prefWidth="252.0" text="Сведения о КТМС" />
+                  <TableColumn fx:id="dataTypeColumn" minWidth="20.0" prefWidth="100.0" text="Тип данных" />
                    </columns>
                </TableView>
            </AnchorPane>

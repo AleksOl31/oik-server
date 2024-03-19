@@ -9,5 +9,5 @@ module ru.alexanna.oikserver {
 
     opens ru.alexanna.oikserver to javafx.fxml;
     exports ru.alexanna.oikserver;
-
+    exports ru.alexanna.oikserver.entities;
 }

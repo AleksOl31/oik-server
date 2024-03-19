@@ -3,8 +3,13 @@ package ru.alexanna.oikserver;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import jssc.SerialPortException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.alexanna.oikserver.entities.Port;
 import ru.alexanna.oikserver.models.MainModel;
 
 import java.net.URL;
@@ -16,6 +21,18 @@ public class MainController implements Initializable {
 
     private static final Logger log = LoggerFactory.getLogger(MainController.class);
     @FXML
+    private TableView<Port> portsTableView;
+    @FXML
+    private TableColumn<Port, String> portNameColumn;
+    @FXML
+    private TableColumn<Port, Integer> baudColumn;
+    @FXML
+    private TableColumn<Port, Boolean> parityColumn;
+    @FXML
+    private TableColumn<Port, String> ktmsColumn;
+    @FXML
+    private TableColumn<Port, String> dataTypeColumn;
+    @FXML
     private Button startBtn;
 
     public MainController() {
@@ -24,37 +41,29 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        mainModel.initialize();
+        setup();
+    }
+
+    public void setup() {
+        portsTableInitialize();
+    }
+
+    private void portsTableInitialize() {
+        portsTableView.setPlaceholder(new Label("Информация о портах отсутствует"));
+        portsTableView.itemsProperty().bindBidirectional(mainModel.getPortsProperty());
     }
 
     public void startBtnClick() {
-        mainModel.startAllReceivers();
-/*        log.debug("Logger");
-        SerialPortReceiver receiver = new EquipmentOperationReceiver();
-        List<String> portNames = receiver.getPortNames();
-        log.debug("Ports {}", portNames);
-        String portName = portNames.get(1);
-        receiver.setPortParams(portName, 9600, false);
-        receiver.setAddresses(List.of(9, 10, 11, 12, 13, 14, 15, 16));
         try {
-            receiver.openPort();
-        } catch (SerialPortException e) {
-            throw new RuntimeException(e);
+            mainModel.startReceiving();
+        } catch (Exception e) {
+            log.error("Start receiving error: {}", e.getMessage());
         }
-        Thread thread = new Thread(receiver);
-        thread.setName("Thread-" + portName);
-        thread.start();
-        Timer timer = new Timer("Timer-" + portName);
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Map<Integer, byte[]> bytes = receiver.getReceivedBytes();
-                log.info("Map {}", bytes);
-//                bytes.forEach((key, val) -> log.info("{} - {}", key, receiver.getLogString(val)));
-            }
-        }, 1000, 1000);*/
     }
 
     public void stopBtnClick() {
-        mainModel.stopAllReceivers();
+        mainModel.stopReceiving();
+
     }
 }

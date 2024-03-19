@@ -3,10 +3,8 @@ package ru.alexanna.oikserver.portreceiver;
 import jssc.SerialPortException;
 
 public class EquipmentOperationReceiver extends SerialPortReceiver {
-    private final int  ANSWER_BYTE_NUMBER = 30;
-
     @Override
-    byte[] createRequest(int chkPntAddress) {
+    final byte[] createRequest(int chkPntAddress) {
         byte[] request = new byte[13];
         request[0] = (byte) 0xfe;
         request[1] = loByte(chkPntAddress);
@@ -22,7 +20,8 @@ public class EquipmentOperationReceiver extends SerialPortReceiver {
     }
 
     @Override
-    void receive() throws SerialPortException {
+    final void receive() throws SerialPortException {
+        final int  ANSWER_BYTE_NUMBER = 30;
             for (Integer address : getAddresses()) {
                 sendRequest(address);
                 byte[] acceptBytes = acceptAnswer(ANSWER_BYTE_NUMBER);

@@ -28,9 +28,11 @@ public abstract class SerialPortReceiver implements Receiver {
     private static final Logger log = LoggerFactory.getLogger(SerialPortReceiver.class);
 
     abstract byte[] createRequest(int chkPntAddress);
+
     abstract void receive() throws SerialPortException;
 
-    public SerialPortReceiver() {}
+    public SerialPortReceiver() {
+    }
 
     public SerialPortReceiver(String portName, int baudRate, boolean parity) {
         this();
@@ -50,6 +52,7 @@ public abstract class SerialPortReceiver implements Receiver {
             try {
                 receive();
                 setReceivedBytes(receivedByteCollector);
+                log.debug("Thread state (while) {}", receivingThread.getState());
             } catch (SerialPortException e) {
                 log.error(e.getMessage());
             }
@@ -59,26 +62,25 @@ public abstract class SerialPortReceiver implements Receiver {
         } catch (SerialPortException e) {
             log.error(e.getMessage());
         }
-        log.debug("Thread state (run) {}", receivingThread.getState());
+        log.debug("Thread state (run exit) {}", receivingThread.getState());
     }
 
     @Override
     public void stopReceiving() {
-        receivingThread.interrupt();
+        if (receivingThread != null) {
+            receivingThread.interrupt();
+            log.debug("Stop method exit {}", receivingThread.getState());
+        }
     }
 
     @Override
-    public void startReceiving() {
-        try {
-            openPort();
-            receivingThread = new Thread(this);
-            log.debug("Thread state (start startReceiving) {}", receivingThread.getState());
-//        receivingThread.setName("Thread-" + port.getPortName());
-            receivingThread.start();
-            log.debug("Thread state (end sR) {}", receivingThread.getState());
-        } catch (SerialPortException e) {
-            throw new RuntimeException(e);
-        }
+    public void startReceiving() throws Exception {
+        openPort();
+        receivingThread = new Thread(this);
+        log.debug("Thread state (start startReceiving) {}", receivingThread.getState());
+        receivingThread.setName("Thread-" + port.getPortName());
+        receivingThread.start();
+        log.debug("Thread state (end sR) {}", receivingThread.getState());
     }
 
     @Override
