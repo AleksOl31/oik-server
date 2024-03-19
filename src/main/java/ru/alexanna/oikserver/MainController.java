@@ -5,7 +5,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.util.StringConverter;
-import jssc.SerialPortException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.alexanna.oikserver.entities.CheckPoint;
@@ -57,7 +56,7 @@ public class MainController implements Initializable {
         portsTableView.itemsProperty().bindBidirectional(mainModel.getPortsProperty());
         portsTableView.getSelectionModel().selectedItemProperty().addListener((
                 (observableValue, oldPort, newPort) -> mainModel.setSelectedPort(newPort)));
-//        portsTableView.getSelectionModel().selectFirst();
+        portsTableView.getSelectionModel().selectFirst();
     }
 
     private void checkPointsListViewInitialize() {
