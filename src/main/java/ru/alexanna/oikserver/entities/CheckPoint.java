@@ -10,7 +10,7 @@ public class CheckPoint {
     protected int id;
     protected String name;
     protected Integer address;
-    protected Integer locationId;
+    protected Location location;
     protected Integer portId;
     protected Set<Signal> signals = new HashSet<>();
 
@@ -38,12 +38,12 @@ public class CheckPoint {
         this.address = address;
     }
 
-    public Integer getLocation() {
-        return locationId;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setLocation(Integer locationId) {
-        this.locationId = locationId;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public Integer getPort() {
@@ -90,7 +90,7 @@ public class CheckPoint {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", address=" + address +
-                ", locationID=" + locationId +
+                ", locationID=" + location +
                 ", portID=" + portId +
                 '}';
     }

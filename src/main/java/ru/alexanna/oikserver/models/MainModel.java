@@ -8,12 +8,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.alexanna.oikserver.MainController;
 import ru.alexanna.oikserver.entities.CheckPoint;
 import ru.alexanna.oikserver.entities.Port;
 import ru.alexanna.oikserver.services.DatabaseService;
 import ru.alexanna.oikserver.services.ReceptionService;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -27,14 +27,13 @@ public class MainModel {
     private static final Logger log = LoggerFactory.getLogger(MainModel.class);
 
     public MainModel() {
-        this.selectedPort.addListener(((observableValue, port, selected) ->
-                setCheckPoints(port.getCheckPoints())));
+        this.selectedPort.addListener(((observableValue, old, selected) ->
+                setCheckPoints(selected.getCheckPoints())));
     }
 
     public void initialize() {
         setPorts(databaseService.findAllPorts());
         log.debug("Ports {}", getPorts());
-//        setCheckPoints(ports.get(0).getCheckPoints());
     }
 
     public ListProperty<Port> getPortsProperty() {
@@ -62,14 +61,14 @@ public class MainModel {
         return checkPoints;
     }
 
-    public void setCheckPoints(Set<CheckPoint> checkPoints) {
-        ObservableList<CheckPoint> observableList = FXCollections.observableArrayList(checkPoints);
+    public void setCheckPoints(List<CheckPoint> checkPoints) {
+        ObservableList<CheckPoint> observableList = FXCollections.observableList(checkPoints);
         this.checkPoints.setValue(observableList);
     }
 
     //==============================================================================================
     public void startAllReceivers() {
-        receptionService.startAllReceivers();
+        receptionService.startAllReceivers(getPorts());
     }
 
     public void stopAllReceivers() {
@@ -77,10 +76,10 @@ public class MainModel {
     }
 
     public void stopReceiving() {
-        receptionService.stopReceiving();
+        receptionService.stopReceiving(getSelectedPort());
     }
 
     public void startReceiving() throws Exception {
-        receptionService.startReceiving();
+        receptionService.startReceiving(getSelectedPort());
     }
 }

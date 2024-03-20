@@ -8,7 +8,7 @@ import java.util.Set;
 public class Location {
     protected int id;
     protected String name;
-    protected TechObject techObject;
+//    protected TechObject techObject;
     protected Set<CheckPoint> checkPoints = new HashSet<>();
 
     public int getId() {
@@ -27,13 +27,13 @@ public class Location {
         this.name = name;
     }
 
-    public TechObject getTechObject() {
-        return techObject;
-    }
+//    public TechObject getTechObject() {
+//        return techObject;
+//    }
 
-    public void setTechObject(TechObject techObject) {
-        this.techObject = techObject;
-    }
+//    public void setTechObject(TechObject techObject) {
+//        this.techObject = techObject;
+//    }
 
     public Set<CheckPoint> getCheckPoints() {
         return checkPoints;
@@ -66,7 +66,7 @@ public class Location {
         return "Location{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", techObjectID=" + techObject.getId() +
+//                ", techObjectID=" + techObject.getId() +
 //                ", checkPoints=" + checkPoints +
                 '}';
     }

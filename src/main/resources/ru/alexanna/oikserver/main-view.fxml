@@ -6,8 +6,8 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.alexanna.oikserver.MainController">
    <top>
        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-           <Button fx:id="startBtn" mnemonicParsing="false" onAction="#startBtnClick" text="Пуск" />
-         <Button mnemonicParsing="false" onAction="#stopBtnClick" text="Стоп" />
+           <Button fx:id="startBtn" focusTraversable="false" mnemonicParsing="false" onAction="#startBtnClick" text="Пуск" />
+         <Button focusTraversable="false" mnemonicParsing="false" onAction="#stopBtnClick" text="Стоп" />
        </ToolBar>
    </top>
    <bottom>
@@ -18,11 +18,11 @@
            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <TableView fx:id="portsTableView" layoutX="67.0" layoutY="-36.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="0.0">
                    <columns>
-                       <TableColumn fx:id="portNameColumn" prefWidth="125.0" text="Имя COM порта" />
-                       <TableColumn fx:id="baudColumn" prefWidth="124.0" text="Скорость (бод)" />
-                  <TableColumn fx:id="parityColumn" minWidth="0.0" prefWidth="114.0" text="Четность" />
-                  <TableColumn fx:id="ktmsColumn" prefWidth="252.0" text="Сведения о КТМС" />
-                  <TableColumn fx:id="dataTypeColumn" minWidth="20.0" prefWidth="100.0" text="Тип данных" />
+                       <TableColumn fx:id="portNameColumn" prefWidth="125.0" style="-fx-alignment: CENTER;" text="Имя COM порта" />
+                       <TableColumn fx:id="baudColumn" prefWidth="124.0" style="-fx-alignment: CENTER;" text="Скорость (бод)" />
+                  <TableColumn fx:id="parityColumn" minWidth="0.0" prefWidth="114.0" style="-fx-alignment: CENTER;" text="Четность" />
+                  <TableColumn fx:id="ktmsColumn" prefWidth="252.0" style="-fx-alignment: CENTER;" text="Сведения о КТМС" />
+                  <TableColumn fx:id="dataTypeColumn" minWidth="20.0" prefWidth="100.0" style="-fx-alignment: CENTER;" text="Тип данных" />
                    </columns>
                </TableView>
            </AnchorPane>
@@ -30,7 +30,7 @@
                <SplitPane dividerPositions="0.2" layoutX="133.0" layoutY="20.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="197.0" prefWidth="175.0">
                        <ListView fx:id="checkPointsListView" layoutX="6.0" layoutY="91.0" prefHeight="108.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
-                       <Label layoutX="92.0" layoutY="14.0" text="Адреса ТМКП" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0" />
+                       <Label layoutX="92.0" layoutY="14.0" text="ТМКП (адрес - локация)" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0" />
                    </AnchorPane>
                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                        <Label layoutX="14.0" layoutY="14.0" text="Журнал приема" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0" />

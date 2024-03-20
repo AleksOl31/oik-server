@@ -3,7 +3,9 @@ package ru.alexanna.oikserver;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,15 +59,48 @@ public class MainController implements Initializable {
         portsTableView.getSelectionModel().selectedItemProperty().addListener((
                 (observableValue, oldPort, newPort) -> mainModel.setSelectedPort(newPort)));
         portsTableView.getSelectionModel().selectFirst();
+        portsTableView.requestFocus();
+        StringConverter<Integer> stringConverter = new StringConverter<>() {
+            @Override
+            public String toString(Integer value) {
+                return value == null ? "" : value.toString();
+            }
+
+            @Override
+            public Integer fromString(String s) {
+                try {
+                    return Integer.valueOf(s);
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+        };
+        portNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        baudColumn.setCellValueFactory(new PropertyValueFactory<>("baudRate"));
+        baudColumn.setCellFactory(TextFieldTableCell.forTableColumn(stringConverter));
+        parityColumn.setCellValueFactory(new PropertyValueFactory<>("parity"));
+        parityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<>() {
+            @Override
+            public String toString(Boolean aBoolean) {
+                return aBoolean ? "Да" : "Нет";
+            }
+
+            @Override
+            public Boolean fromString(String s) {
+                return Objects.equals(s, "Да");
+            }
+        }));
+        ktmsColumn.setCellValueFactory(new PropertyValueFactory<>("ktms"));
+        dataTypeColumn.setCellValueFactory(new PropertyValueFactory<>("receivedData"));
     }
 
     private void checkPointsListViewInitialize() {
         checkPointsListView.setPlaceholder(new Label("ТМКП не зарегистрированы"));
         checkPointsListView.itemsProperty().bind(mainModel.getCheckPointsProperty());
-        checkPointsListView.setCellFactory(TextFieldListCell.forListView(new StringConverter<CheckPoint>() {
+        checkPointsListView.setCellFactory(TextFieldListCell.forListView(new StringConverter<>() {
             @Override
             public String toString(CheckPoint checkPoint) {
-                return checkPoint.getAddress().toString();
+                return checkPoint.getAddress().toString() + " - " + checkPoint.getLocation().getName();
             }
 
             @Override

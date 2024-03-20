@@ -1,18 +1,17 @@
 package ru.alexanna.oikserver.entities;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 @SuppressWarnings("unused")
 public class Port {
-    private int id;
-    private String name;
-    private int baudRate;
-    private boolean parity;
-    private String ktms;
-    protected Set<CheckPoint> checkPoints = new HashSet<>();
+    protected int id;
+    protected String name;
+    protected int baudRate;
+    protected boolean parity;
+    protected String ktms;
+    protected String receivedData;
+    protected List<CheckPoint> checkPoints = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -46,11 +45,11 @@ public class Port {
         this.parity = parity;
     }
 
-    public Set<CheckPoint> getCheckPoints() {
+    public List<CheckPoint> getCheckPoints() {
         return checkPoints;
     }
 
-    public void setCheckPoints(Set<CheckPoint> checkPoints) {
+    public void setCheckPoints(List<CheckPoint> checkPoints) {
         this.checkPoints = checkPoints;
     }
 
@@ -60,6 +59,14 @@ public class Port {
 
     public void setKtms(String ktms) {
         this.ktms = ktms;
+    }
+
+    public String getReceivedData() {
+        return receivedData;
+    }
+
+    public void setReceivedData(String receivedData) {
+        this.receivedData = receivedData;
     }
 
     @Override

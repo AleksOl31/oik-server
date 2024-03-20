@@ -1,47 +1,57 @@
 package ru.alexanna.oikserver.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.alexanna.oikserver.entities.Port;
+import ru.alexanna.oikserver.portreceiver.ElectricityReceiver;
 import ru.alexanna.oikserver.portreceiver.EquipmentOperationReceiver;
 import ru.alexanna.oikserver.portreceiver.Receiver;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ReceptionService {
-    protected final Set<Receiver> receivers = new HashSet<>();
-    protected Receiver receiver;
+    protected final Map<Port, Receiver> receivers = new HashMap<>();
 
-    public void addReceiver(Receiver receiver) {
-        receivers.add(receiver);
-    }
+    private static final Logger log = LoggerFactory.getLogger(ReceptionService.class);
 
-    public void addReceivers(Set<Receiver> receivers) {
-        this.receivers.addAll(receivers);
-    }
-
-    public void startAllReceivers() {
-        Receiver receiver1 = createReceiver();
-        addReceiver(receiver1);
-//        receivers.forEach(Receiver::startReceiving);
+    public void startAllReceivers(List<Port> ports) {
+        ports.forEach(port -> {
+            try {
+                startReceiving(port);
+            } catch (Exception e) {
+                throw new RuntimeException("Ошибка открытия порта " + port.getName(), e);
+            }
+        });
     }
 
     public void stopAllReceivers() {
-        receivers.forEach(Receiver::stopReceiving);
+        receivers.forEach(((port, receiver) -> stopReceiving(port)));
     }
 
-    public void stopReceiving() {
-        receiver.stopReceiving();
+    public void stopReceiving(Port port) {
+        receivers.get(port).stopReceiving();
     }
 
-    public void startReceiving() throws Exception {
-        receiver = createReceiver();
+    public void startReceiving(Port port) throws Exception {
+        Receiver receiver = createReceiver(port.getReceivedData());
+        setReceiver(receiver, port);
         receiver.startReceiving();
+        receivers.put(port, receiver);
     }
 
-    private Receiver createReceiver() {
-        Receiver receiver = new EquipmentOperationReceiver();
-        receiver.setPortParams("COM2", 9600, false);
-        receiver.setAddresses(List.of(9, 10, 11, 12, 13, 14, 15, 16));
+    private Receiver createReceiver(String receivedData) {
+        Receiver receiver;
+        if (Objects.equals(receivedData, "Оборудование"))
+            receiver = new EquipmentOperationReceiver();
+        else
+            receiver = new ElectricityReceiver();
         return receiver;
+    }
+
+    private static void setReceiver(Receiver receiver, Port port) {
+        receiver.setPortParams(port.getName(), port.getBaudRate(), port.isParity());
+//        List<Integer> addresses = port.getCheckPoints().stream().map(CheckPoint::getAddress).collect(Collectors.toList());
+        List<Integer> addresses = List.of(9, 10, 11, 12, 13, 14, 15, 16);
+        receiver.setAddresses(addresses);
     }
 }

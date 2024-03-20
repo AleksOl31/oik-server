@@ -69,6 +69,17 @@ public abstract class SerialPortReceiver implements Receiver {
     public void stopReceiving() {
         if (receivingThread != null) {
             receivingThread.interrupt();
+
+            //TODO переделать через wait() в методе run()
+            try {
+                Thread.sleep(1000);
+                if (receivingThread.getState() == Thread.State.RUNNABLE)
+                    closePort();
+                Thread.sleep(500);
+                log.debug("Stop method closed port {}", receivingThread.getState());
+            } catch (InterruptedException | SerialPortException e) {
+                throw new RuntimeException(e);
+            }
             log.debug("Stop method exit {}", receivingThread.getState());
         }
     }
@@ -92,7 +103,7 @@ public abstract class SerialPortReceiver implements Receiver {
         return addresses;
     }
 
-    public List<String> getPortNames() {
+    public static List<String> getPortNames() {
         return Arrays.asList(SerialPortList.getPortNames());
     }
 
