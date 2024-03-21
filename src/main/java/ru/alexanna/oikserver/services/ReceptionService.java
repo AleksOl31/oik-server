@@ -2,17 +2,24 @@ package ru.alexanna.oikserver.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.alexanna.oikserver.entities.CheckPoint;
 import ru.alexanna.oikserver.entities.Port;
+import ru.alexanna.oikserver.models.MainModel;
 import ru.alexanna.oikserver.portreceiver.ElectricityReceiver;
 import ru.alexanna.oikserver.portreceiver.EquipmentOperationReceiver;
+import ru.alexanna.oikserver.portreceiver.PortEventListener;
 import ru.alexanna.oikserver.portreceiver.Receiver;
 
 import java.util.*;
 
-public class ReceptionService {
-    protected final Map<Port, Receiver> receivers = new HashMap<>();
-
+public class ReceptionService implements PortEventListener {
+    private final Map<Port, Receiver> receivers = new HashMap<>();
+    private final MainModel mainModel;
     private static final Logger log = LoggerFactory.getLogger(ReceptionService.class);
+
+    public ReceptionService(MainModel mainModel) {
+        this.mainModel = mainModel;
+    }
 
     public void startAllReceivers(List<Port> ports) {
         ports.forEach(port -> {
@@ -36,6 +43,7 @@ public class ReceptionService {
         Receiver receiver = createReceiver(port.getReceivedData());
         setReceiver(receiver, port);
         receiver.startReceiving();
+        receiver.addPortEventListener(this);
         receivers.put(port, receiver);
     }
 
@@ -51,7 +59,18 @@ public class ReceptionService {
     private static void setReceiver(Receiver receiver, Port port) {
         receiver.setPortParams(port.getName(), port.getBaudRate(), port.isParity());
 //        List<Integer> addresses = port.getCheckPoints().stream().map(CheckPoint::getAddress).collect(Collectors.toList());
-        List<Integer> addresses = List.of(9, 10, 11, 12, 13, 14, 15, 16);
+        // FIXME тестовый hardcode
+        List<Integer> addresses;
+        if (Objects.equals(port.getName(), "COM2"))
+            addresses = List.of(9, 10, 11, 12, 13, 14, 15, 16);
+        else
+            addresses = List.of(1, 2, 3, 4, 5, 6, 7, 8);
         receiver.setAddresses(addresses);
+    }
+
+    @Override
+    public void updateLog(String newLogString) {
+        log.debug("{}", newLogString);
+        mainModel.setPortOperationLog(newLogString);
     }
 }

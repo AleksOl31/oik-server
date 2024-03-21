@@ -1,13 +1,11 @@
 package ru.alexanna.oikserver.models;
 
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.alexanna.oikserver.MainController;
 import ru.alexanna.oikserver.entities.CheckPoint;
 import ru.alexanna.oikserver.entities.Port;
 import ru.alexanna.oikserver.services.DatabaseService;
@@ -18,17 +16,24 @@ import java.util.Set;
 
 
 public class MainModel {
-    protected final ReceptionService receptionService = new ReceptionService();
+    protected final ReceptionService receptionService;
+    protected final MainController mainController;
     protected final DatabaseService databaseService = new DatabaseService();
     protected final ListProperty<Port> ports = new SimpleListProperty<>();
     protected final ObjectProperty<Port> selectedPort = new SimpleObjectProperty<>();
     protected final ListProperty<CheckPoint> checkPoints = new SimpleListProperty<>();
+    protected volatile StringProperty portOperationLog = new SimpleStringProperty();
+    private int count = 0;
 
     private static final Logger log = LoggerFactory.getLogger(MainModel.class);
 
-    public MainModel() {
+    public MainModel(MainController mainController) {
         this.selectedPort.addListener(((observableValue, old, selected) ->
                 setCheckPoints(selected.getCheckPoints())));
+        this.receptionService = new ReceptionService(this);
+        this.mainController = mainController;
+        portOperationLog.addListener((observableValue, oldStr, newStr) ->
+                mainController.logTextAreaSetText(newStr));
     }
 
     public void initialize() {
@@ -64,6 +69,15 @@ public class MainModel {
     public void setCheckPoints(List<CheckPoint> checkPoints) {
         ObservableList<CheckPoint> observableList = FXCollections.observableList(checkPoints);
         this.checkPoints.setValue(observableList);
+    }
+
+    public void setPortOperationLog(String newLogString) {
+        if (count > 99) {
+            mainController.clearPortOperationLog();
+            count = 0;
+        }
+        portOperationLog.setValue(newLogString);
+        count++;
     }
 
     //==============================================================================================

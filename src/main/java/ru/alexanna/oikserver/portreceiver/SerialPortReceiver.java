@@ -6,10 +6,7 @@ import jssc.SerialPortList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static jssc.SerialPort.DATABITS_8;
 import static jssc.SerialPort.STOPBITS_1;
@@ -17,7 +14,6 @@ import static jssc.SerialPort.STOPBITS_1;
 
 @SuppressWarnings("unused")
 public abstract class SerialPortReceiver implements Receiver {
-
     private SerialPort port;
     private int baudRate;
     private boolean parity;
@@ -26,6 +22,8 @@ public abstract class SerialPortReceiver implements Receiver {
     private volatile Map<Integer, byte[]> bytesReceived;
     private Thread receivingThread;
     private static final Logger log = LoggerFactory.getLogger(SerialPortReceiver.class);
+
+    private final List<PortEventListener> listeners = new ArrayList<>();
 
     abstract byte[] createRequest(int chkPntAddress);
 
@@ -99,6 +97,23 @@ public abstract class SerialPortReceiver implements Receiver {
         this.addresses = addresses;
     }
 
+    @Override
+    public void addPortEventListener(PortEventListener portEventListener) {
+        listeners.add(portEventListener);
+    }
+
+    @Override
+    public void removePortEventListener(PortEventListener portEventListener) {
+        listeners.remove(portEventListener);
+    }
+
+    @Override
+    public void notifyListeners(String newLogString) {
+        for (PortEventListener listener: listeners) {
+            listener.updateLog(newLogString);
+        }
+    }
+
     public List<Integer> getAddresses() {
         return addresses;
     }
@@ -121,13 +136,15 @@ public abstract class SerialPortReceiver implements Receiver {
     public void sendRequest(int address) throws SerialPortException {
         byte[] request = createRequest(address);
         port.writeBytes(request);
-        log.debug("Request sent to {}: {}", address, getLogString(request));
+//        log.debug("Request sent to {}: {}", address, getLogString(request));
+        notifyListeners("Request sent to " + address + " TCP: " + getLogString(request) + "\n");
     }
 
     public byte[] acceptAnswer(int byteNumber) throws SerialPortException {
         log.debug("Wait for read port {}...", port.getPortName());
         byte[] buffer = port.readBytes(byteNumber);
-        log.debug("Data read, from check point address {}: {}", buffer[1], getLogString(buffer));
+//        log.debug("Data read, from check point address {}: {}", buffer[1], getLogString(buffer));
+        notifyListeners("Data read, from check point address " + buffer[1] + ": " + getLogString(buffer) + "\n");
         return buffer;
     }
 
@@ -139,7 +156,7 @@ public abstract class SerialPortReceiver implements Receiver {
         return result;
     }
 
-    public static String getLogString(byte[] byteArr) {
+    public String getLogString(byte[] byteArr) {
         StringBuilder builder = new StringBuilder();
         for (byte b : byteArr) {
             builder.append(String.format("%02X", unsignedByte(b)))

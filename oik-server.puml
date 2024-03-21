@@ -32,8 +32,8 @@ interface DataStore {
 {abstract} update(Port)
 }
 
-MainModel -right--> Receiver
-MainModel -left--> DataStore
+MainModel *--> Receiver
+MainModel *--> DataStore
 MainModel <--* MainController
 
 @enduml

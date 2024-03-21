@@ -1,8 +1,11 @@
 package ru.alexanna.oikserver.portreceiver;
 
 import jssc.SerialPortException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EquipmentOperationReceiver extends SerialPortReceiver {
+    private static final Logger log = LoggerFactory.getLogger(EquipmentOperationReceiver.class);
     @Override
     final byte[] createRequest(int chkPntAddress) {
         byte[] request = new byte[13];
@@ -25,6 +28,11 @@ public class EquipmentOperationReceiver extends SerialPortReceiver {
             for (Integer address : getAddresses()) {
                 sendRequest(address);
                 byte[] acceptBytes = acceptAnswer(ANSWER_BYTE_NUMBER);
+                try {
+                    Thread.sleep(30);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 putAcceptedBytes(address, acceptBytes);
             }
     }

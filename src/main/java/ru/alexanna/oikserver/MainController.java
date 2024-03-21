@@ -22,7 +22,7 @@ public class MainController implements Initializable {
 
     private static final Logger log = LoggerFactory.getLogger(MainController.class);
     @FXML
-    private ListView<CheckPoint> checkPointsListView;
+    private Button startBtn;
     @FXML
     private TableView<Port> portsTableView;
     @FXML
@@ -36,10 +36,12 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<Port, String> dataTypeColumn;
     @FXML
-    private Button startBtn;
+    private ListView<CheckPoint> checkPointsListView;
+    @FXML
+    private TextArea logTextArea;
 
     public MainController() {
-        this.mainModel = new MainModel();
+        this.mainModel = new MainModel(this);
     }
 
     @Override
@@ -108,6 +110,14 @@ public class MainController implements Initializable {
                 return null;
             }
         }));
+    }
+
+    public void logTextAreaSetText(String newLogString) {
+        logTextArea.appendText(newLogString);
+    }
+
+    public void clearPortOperationLog() {
+        logTextArea.clear();
     }
 
     public void startBtnClick() {
