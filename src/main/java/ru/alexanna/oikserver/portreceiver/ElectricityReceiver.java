@@ -10,7 +10,7 @@ public class ElectricityReceiver extends SerialPortReceiver {
     }
 
     @Override
-    void receive() throws SerialPortException {
+    void receive() throws Exception {
 
     }
 }

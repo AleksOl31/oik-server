@@ -4,6 +4,9 @@ import jssc.SerialPortException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class EquipmentOperationReceiver extends SerialPortReceiver {
     private static final Logger log = LoggerFactory.getLogger(EquipmentOperationReceiver.class);
     @Override
@@ -23,16 +26,13 @@ public class EquipmentOperationReceiver extends SerialPortReceiver {
     }
 
     @Override
-    final void receive() throws SerialPortException {
+    final void receive() throws Exception {
         final int  ANSWER_BYTE_NUMBER = 30;
+        final int PAUSE = 30;
             for (Integer address : getAddresses()) {
                 sendRequest(address);
                 byte[] acceptBytes = acceptAnswer(ANSWER_BYTE_NUMBER);
-                try {
-                    Thread.sleep(30);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                Thread.sleep(PAUSE);
                 putAcceptedBytes(address, acceptBytes);
             }
     }

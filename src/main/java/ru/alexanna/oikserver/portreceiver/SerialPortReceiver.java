@@ -6,6 +6,7 @@ import jssc.SerialPortList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Time;
 import java.util.*;
 
 import static jssc.SerialPort.DATABITS_8;
@@ -24,10 +25,12 @@ public abstract class SerialPortReceiver implements Receiver {
     private static final Logger log = LoggerFactory.getLogger(SerialPortReceiver.class);
 
     private final List<PortEventListener> listeners = new ArrayList<>();
+    protected StringBuffer logStringBuffer;
+    protected Timer logTimer;
 
     abstract byte[] createRequest(int chkPntAddress);
 
-    abstract void receive() throws SerialPortException;
+    abstract void receive() throws Exception;
 
     public SerialPortReceiver() {
     }
@@ -48,10 +51,10 @@ public abstract class SerialPortReceiver implements Receiver {
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
             try {
+                logStringBuffer = new StringBuffer();
                 receive();
                 setReceivedBytes(receivedByteCollector);
-                log.debug("Thread state (while) {}", receivingThread.getState());
-            } catch (SerialPortException e) {
+            } catch (Exception e) {
                 log.error(e.getMessage());
             }
         }
@@ -67,7 +70,7 @@ public abstract class SerialPortReceiver implements Receiver {
     public void stopReceiving() {
         if (receivingThread != null) {
             receivingThread.interrupt();
-
+            logTimer.cancel();
             //TODO переделать через wait() в методе run()
             try {
                 Thread.sleep(1000);
@@ -86,10 +89,16 @@ public abstract class SerialPortReceiver implements Receiver {
     public void startReceiving() throws Exception {
         openPort();
         receivingThread = new Thread(this);
-        log.debug("Thread state (start startReceiving) {}", receivingThread.getState());
         receivingThread.setName("Thread-" + port.getPortName());
         receivingThread.start();
-        log.debug("Thread state (end sR) {}", receivingThread.getState());
+        logTimer = new Timer(true);
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                notifyListeners(logStringBuffer.toString());
+            }
+        };
+        logTimer.schedule(timerTask, 1000, 1000);
     }
 
     @Override
@@ -136,15 +145,19 @@ public abstract class SerialPortReceiver implements Receiver {
     public void sendRequest(int address) throws SerialPortException {
         byte[] request = createRequest(address);
         port.writeBytes(request);
-//        log.debug("Request sent to {}: {}", address, getLogString(request));
-        notifyListeners("Request sent to " + address + " TCP: " + getLogString(request) + "\n");
+        Date date = new Date();
+        String logStringRequest = date + " Запрос к ТМКП-" + address + " отправлен (" + request.length +
+                "/13): " + getLogString(request) + "\n";
+        logStringBuffer.append(logStringRequest);
     }
 
     public byte[] acceptAnswer(int byteNumber) throws SerialPortException {
         log.debug("Wait for read port {}...", port.getPortName());
         byte[] buffer = port.readBytes(byteNumber);
 //        log.debug("Data read, from check point address {}: {}", buffer[1], getLogString(buffer));
-        notifyListeners("Data read, from check point address " + buffer[1] + ": " + getLogString(buffer) + "\n");
+        String logStringResponse = "Ответ ТМКП-" + buffer[1] + " (" + buffer.length + "/30): " +
+                getLogString(buffer) + "\n\n";
+        logStringBuffer.append(logStringResponse);
         return buffer;
     }
 
