@@ -23,7 +23,6 @@ public class MainModel {
     protected final ObjectProperty<Port> selectedPort = new SimpleObjectProperty<>();
     protected final ListProperty<CheckPoint> checkPoints = new SimpleListProperty<>();
     protected volatile StringProperty portOperationLog = new SimpleStringProperty();
-    private int count = 0;
 
     private static final Logger log = LoggerFactory.getLogger(MainModel.class);
 
@@ -32,8 +31,10 @@ public class MainModel {
                 setCheckPoints(selected.getCheckPoints())));
         this.receptionService = new ReceptionService(this);
         this.mainController = mainController;
-        portOperationLog.addListener((observableValue, oldStr, newStr) ->
-                mainController.logTextAreaSetText(newStr));
+        portOperationLog.addListener((observableValue, oldStr, newStr) -> {
+                mainController.logTextAreaSetText(newStr);
+                mainController.replaceTextArea(50);
+        });
     }
 
     public void initialize() {
@@ -72,12 +73,7 @@ public class MainModel {
     }
 
     public void setPortOperationLog(String newLogString) {
-        if (count > 99) {
-            mainController.clearPortOperationLog();
-            count = 0;
-        }
         portOperationLog.setValue(newLogString);
-        count++;
     }
 
     //==============================================================================================

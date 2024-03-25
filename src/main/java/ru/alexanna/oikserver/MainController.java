@@ -131,4 +131,12 @@ public class MainController implements Initializable {
     public void stopBtnClick() {
         mainModel.stopReceiving();
     }
+
+    public void replaceTextArea(int maxStrNum) {
+        while (logTextArea.getText().split("\n", -1).length > maxStrNum) {
+            int fle = logTextArea.getText().indexOf("\n");
+            logTextArea.replaceText(0, fle+1, "");
+            logTextArea.positionCaret(logTextArea.getText().length());
+        }
+    }
 }
