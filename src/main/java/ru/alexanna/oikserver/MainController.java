@@ -141,13 +141,10 @@ public class MainController implements Initializable {
         }
     }
 
-    public void addStringToLog(String newLogString) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                logTextAreaSetText(newLogString);
-                replaceTextArea(30);
-            }
+    public void addStringToLog(String newLogString, int maxStrNum) {
+        Platform.runLater(() -> {
+            logTextAreaSetText(newLogString);
+            replaceTextArea(maxStrNum);
         });
     }
 }

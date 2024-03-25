@@ -79,7 +79,7 @@ public class MainModel {
     public void addStringToLog(String newLogString) {
 //        mainController.logTextAreaSetText(newLogString);
 //        mainController.replaceTextArea(50);
-        mainController.addStringToLog(newLogString);
+        mainController.addStringToLog(newLogString, 50);
     }
 
     //==============================================================================================

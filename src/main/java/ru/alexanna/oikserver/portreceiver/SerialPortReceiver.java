@@ -107,7 +107,7 @@ public abstract class SerialPortReceiver implements Receiver {
         if (currentAddressListIndex == addresses.size() - 1)
             currentAddressListIndex = 0;
         else
-            ++currentAddressListIndex;
+            currentAddressListIndex++;
         return logEntry;
     }
 
