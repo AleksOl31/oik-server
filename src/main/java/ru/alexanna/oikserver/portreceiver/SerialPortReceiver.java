@@ -6,8 +6,9 @@ import jssc.SerialPortList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Time;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import static jssc.SerialPort.DATABITS_8;
 import static jssc.SerialPort.STOPBITS_1;
@@ -25,8 +26,9 @@ public abstract class SerialPortReceiver implements Receiver {
     private static final Logger log = LoggerFactory.getLogger(SerialPortReceiver.class);
 
     private final List<PortEventListener> listeners = new ArrayList<>();
-    protected StringBuffer logStringBuffer;
+    protected final ConcurrentMap<Integer, String> logBuffer = new ConcurrentHashMap<>();
     protected Timer logTimer;
+    protected int currentAddressListIndex = 0;
 
     abstract byte[] createRequest(int chkPntAddress);
 
@@ -51,7 +53,6 @@ public abstract class SerialPortReceiver implements Receiver {
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                logStringBuffer = new StringBuffer();
                 receive();
                 setReceivedBytes(receivedByteCollector);
             } catch (Exception e) {
@@ -95,10 +96,19 @@ public abstract class SerialPortReceiver implements Receiver {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                notifyListeners(logStringBuffer.toString());
+                notifyListeners(getLogEntry());
             }
         };
         logTimer.schedule(timerTask, 1000, 1000);
+    }
+
+    private synchronized String getLogEntry() {
+        String logEntry = logBuffer.get(addresses.get(currentAddressListIndex));
+        if (currentAddressListIndex == addresses.size() - 1)
+            currentAddressListIndex = 0;
+        else
+            ++currentAddressListIndex;
+        return logEntry;
     }
 
     @Override
@@ -142,22 +152,27 @@ public abstract class SerialPortReceiver implements Receiver {
         log.debug("Port {} closed", port.getPortName());
     }
 
-    public void sendRequest(int address) throws SerialPortException {
+    public synchronized void sendRequest(int address) throws SerialPortException {
         byte[] request = createRequest(address);
         port.writeBytes(request);
         Date date = new Date();
         String logStringRequest = date + " Запрос к ТМКП-" + address + " отправлен (" + request.length +
                 "/13): " + getLogString(request) + "\n";
-        logStringBuffer.append(logStringRequest);
+
+        logBuffer.put(address, logStringRequest);
     }
 
-    public byte[] acceptAnswer(int byteNumber) throws SerialPortException {
-        log.debug("Wait for read port {}...", port.getPortName());
+    public synchronized byte[] acceptAnswer(int byteNumber) throws SerialPortException {
+//        log.debug("Wait for read port {}...", port.getPortName());
         byte[] buffer = port.readBytes(byteNumber);
 //        log.debug("Data read, from check point address {}: {}", buffer[1], getLogString(buffer));
-        String logStringResponse = "Ответ ТМКП-" + buffer[1] + " (" + buffer.length + "/30): " +
+        int address = buffer[1];
+        String logStringResponse = "Ответ ТМКП-" + address + " (" + buffer.length + "/30): " +
                 getLogString(buffer) + "\n\n";
-        logStringBuffer.append(logStringResponse);
+
+        String requestStr = logBuffer.get(address);
+        String requestAndResponseStr = requestStr.concat(logStringResponse);
+        logBuffer.put(address, requestAndResponseStr);
         return buffer;
     }
 

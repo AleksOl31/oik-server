@@ -1,5 +1,6 @@
 package ru.alexanna.oikserver;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -138,5 +139,15 @@ public class MainController implements Initializable {
             logTextArea.replaceText(0, fle+1, "");
             logTextArea.positionCaret(logTextArea.getText().length());
         }
+    }
+
+    public void addStringToLog(String newLogString) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                logTextAreaSetText(newLogString);
+                replaceTextArea(30);
+            }
+        });
     }
 }

@@ -28,7 +28,7 @@ public class EquipmentOperationReceiver extends SerialPortReceiver {
     @Override
     final void receive() throws Exception {
         final int  ANSWER_BYTE_NUMBER = 30;
-        final int PAUSE = 30;
+        final int PAUSE = 20;
             for (Integer address : getAddresses()) {
                 sendRequest(address);
                 byte[] acceptBytes = acceptAnswer(ANSWER_BYTE_NUMBER);

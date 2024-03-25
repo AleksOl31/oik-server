@@ -71,6 +71,7 @@ public class ReceptionService implements PortEventListener {
     @Override
     public void updateLog(String newLogString) {
         log.debug("{}", newLogString);
-        mainModel.setPortOperationLog(newLogString);
+//        mainModel.setPortOperationLog(newLogString);
+        mainModel.addStringToLog(newLogString);
     }
 }
