@@ -11,6 +11,7 @@ public class Port {
     protected boolean parity;
     protected String ktms;
     protected String receivedData;
+    protected boolean online = false;
     protected List<CheckPoint> checkPoints = new ArrayList<>();
 
     public int getId() {
@@ -67,6 +68,14 @@ public class Port {
 
     public void setReceivedData(String receivedData) {
         this.receivedData = receivedData;
+    }
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
     }
 
     @Override

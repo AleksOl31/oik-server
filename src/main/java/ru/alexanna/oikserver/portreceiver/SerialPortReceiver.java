@@ -57,13 +57,11 @@ public abstract class SerialPortReceiver implements Receiver {
                 setReceivedBytes(receivedByteCollector);
             } catch (Exception e) {
                 log.error(e.getMessage());
+                closePort();
+                return;
             }
         }
-        try {
-            closePort();
-        } catch (SerialPortException e) {
-            log.error(e.getMessage());
-        }
+        closePort();
         log.debug("Thread state (run exit) {}", receivingThread.getState());
     }
 
@@ -71,17 +69,7 @@ public abstract class SerialPortReceiver implements Receiver {
     public void stopReceiving() {
         if (receivingThread != null) {
             receivingThread.interrupt();
-            logTimer.cancel();
-            //TODO переделать через wait() в методе run()
-            try {
-                Thread.sleep(1000);
-                if (receivingThread.getState() == Thread.State.RUNNABLE)
-                    closePort();
-                Thread.sleep(500);
-                log.debug("Stop method closed port {}", receivingThread.getState());
-            } catch (InterruptedException | SerialPortException e) {
-                throw new RuntimeException(e);
-            }
+
             log.debug("Stop method exit {}", receivingThread.getState());
         }
     }
@@ -92,6 +80,10 @@ public abstract class SerialPortReceiver implements Receiver {
         receivingThread = new Thread(this);
         receivingThread.setName("Thread-" + port.getPortName());
         receivingThread.start();
+    }
+
+    @Override
+    public void startLogging() {
         logTimer = new Timer(true);
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -100,6 +92,11 @@ public abstract class SerialPortReceiver implements Receiver {
             }
         };
         logTimer.schedule(timerTask, 1000, 1000);
+    }
+
+    @Override
+    public void stopLogging() {
+        logTimer.cancel();
     }
 
     private synchronized String getLogEntry() {
@@ -128,7 +125,7 @@ public abstract class SerialPortReceiver implements Receiver {
 
     @Override
     public void notifyListeners(String newLogString) {
-        for (PortEventListener listener: listeners) {
+        for (PortEventListener listener : listeners) {
             listener.updateLog(newLogString);
         }
     }
@@ -147,33 +144,47 @@ public abstract class SerialPortReceiver implements Receiver {
         log.debug("Port {} opened", port.getPortName());
     }
 
-    public void closePort() throws SerialPortException {
-        port.closePort();
+    public void closePort() {
+        try {
+            port.closePort();
+        } catch (SerialPortException e) {
+            log.error("Close port error: {}", e.getMessage());
+            return;
+        }
         log.debug("Port {} closed", port.getPortName());
     }
 
     public synchronized void sendRequest(int address) throws SerialPortException {
         byte[] request = createRequest(address);
         port.writeBytes(request);
-        Date date = new Date();
-        String logStringRequest = date + " Запрос к ТМКП-" + address + " отправлен (" + request.length +
-                "/13): " + getLogString(request) + "\n";
+        logRequest(request);
+    }
 
+    protected void logRequest(byte[] request) {
+        Date date = new Date();
+        int address = request[1];
+        String logStringRequest = date.toLocaleString() + "\n\tЗапрос к ТМКП-" + address + " отправлен (" + request.length +
+                "/13): " + getLogString(request) + "\n";
         logBuffer.put(address, logStringRequest);
     }
 
     public synchronized byte[] acceptAnswer(int byteNumber) throws SerialPortException {
-//        log.debug("Wait for read port {}...", port.getPortName());
         byte[] buffer = port.readBytes(byteNumber);
-//        log.debug("Data read, from check point address {}: {}", buffer[1], getLogString(buffer));
-        int address = buffer[1];
-        String logStringResponse = "Ответ ТМКП-" + address + " (" + buffer.length + "/30): " +
-                getLogString(buffer) + "\n\n";
+        logAnswer(buffer);
+        return buffer;
+    }
 
+    protected void logAnswer(byte[] buffer) {
+        int address = buffer[1];
+        String logStringResponse = "\tОтвет ТМКП-" + address + " (" + buffer.length + "/30): " +
+                getLogString(buffer) + "\n";
+        if (unsignedByte(buffer[3]) == 0xAA)
+            logStringResponse += "\tОшибка связи!\n\n";
+        else
+            logStringResponse += "\tOK!\n\n";
         String requestStr = logBuffer.get(address);
         String requestAndResponseStr = requestStr.concat(logStringResponse);
         logBuffer.put(address, requestAndResponseStr);
-        return buffer;
     }
 
     public int calcCheckSum(byte[] byteArr, int byteNumber) {

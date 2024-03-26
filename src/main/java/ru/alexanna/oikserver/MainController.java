@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,7 @@ public class MainController implements Initializable {
     public void setup() {
         portsTableInitialize();
         checkPointsListViewInitialize();
+        portsTableSetRowFactory();
     }
 
     private void portsTableInitialize() {
@@ -124,6 +126,7 @@ public class MainController implements Initializable {
     public void startBtnClick() {
         try {
             mainModel.startReceiving();
+            portsTableSetRowFactory();
         } catch (Exception e) {
             log.error("Start receiving error: {}", e.getMessage());
         }
@@ -131,6 +134,7 @@ public class MainController implements Initializable {
 
     public void stopBtnClick() {
         mainModel.stopReceiving();
+        portsTableSetRowFactory();
     }
 
     public void replaceTextArea(int maxStrNum) {
@@ -146,5 +150,28 @@ public class MainController implements Initializable {
             logTextAreaSetText(newLogString);
             replaceTextArea(maxStrNum);
         });
+    }
+
+    public void portsTableSetRowFactory() {
+        Callback<TableView<Port>, TableRow<Port>> rowFactory = new Callback<>() {
+            @Override
+            public TableRow<Port> call(TableView<Port> portTableView) {
+                return new TableRow<>() {
+                    @Override
+                    protected void updateItem(Port port, boolean empty) {
+                        super.updateItem(port, empty);
+                        if (port == null || empty)
+                            setStyle("");
+                        else {
+                            if (port.isOnline())
+                                setStyle("-fx-background-color: #2b962b");
+                            else
+                                setStyle("-fx-background-color: rgb(245,202,202)");
+                        }
+                    }
+                };
+            }
+        };
+        portsTableView.setRowFactory(rowFactory);
     }
 }

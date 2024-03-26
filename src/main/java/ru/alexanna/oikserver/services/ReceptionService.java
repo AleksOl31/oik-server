@@ -2,7 +2,6 @@ package ru.alexanna.oikserver.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.alexanna.oikserver.entities.CheckPoint;
 import ru.alexanna.oikserver.entities.Port;
 import ru.alexanna.oikserver.models.MainModel;
 import ru.alexanna.oikserver.portreceiver.ElectricityReceiver;
@@ -35,16 +34,27 @@ public class ReceptionService implements PortEventListener {
         receivers.forEach(((port, receiver) -> stopReceiving(port)));
     }
 
-    public void stopReceiving(Port port) {
+    public Receiver stopReceiving(Port port) {
         receivers.get(port).stopReceiving();
+        return receivers.remove(port);
     }
 
-    public void startReceiving(Port port) throws Exception {
+    public Receiver startReceiving(Port port) throws Exception {
         Receiver receiver = createReceiver(port.getReceivedData());
         setReceiver(receiver, port);
         receiver.startReceiving();
         receiver.addPortEventListener(this);
-        receivers.put(port, receiver);
+        return receivers.put(port, receiver);
+    }
+
+    public void startLogging(Port port) {
+        if (receivers.get(port) != null)
+            receivers.get(port).startLogging();
+    }
+
+    public void stopLogging(Port port) {
+        if (receivers.get(port) != null)
+            receivers.get(port).stopLogging();
     }
 
     private Receiver createReceiver(String receivedData) {

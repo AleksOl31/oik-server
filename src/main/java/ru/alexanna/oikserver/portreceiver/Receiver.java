@@ -8,5 +8,6 @@ public interface Receiver extends Runnable, SerialPortEvent {
     void stopReceiving();
     void setPortParams(String portName, int baudRate, boolean parity);
     void setAddresses(List<Integer> addresses);
-
+    void startLogging();
+    void stopLogging();
 }

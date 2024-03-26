@@ -22,22 +22,21 @@ public class MainModel {
     protected final ListProperty<Port> ports = new SimpleListProperty<>();
     protected final ObjectProperty<Port> selectedPort = new SimpleObjectProperty<>();
     protected final ListProperty<CheckPoint> checkPoints = new SimpleListProperty<>();
-//    protected volatile StringProperty portOperationLog = new SimpleStringProperty();
 
     private static final Logger log = LoggerFactory.getLogger(MainModel.class);
 
     public MainModel(MainController mainController) {
-        this.selectedPort.addListener(((observableValue, old, selected) ->
-                setCheckPoints(selected.getCheckPoints())));
         this.receptionService = new ReceptionService(this);
         this.mainController = mainController;
-/*        portOperationLog.addListener((observableValue, oldStr, newStr) -> {
-                mainController.logTextAreaSetText(newStr);
-                mainController.replaceTextArea(50);
-        });*/
     }
 
     public void initialize() {
+        this.selectedPort.addListener(((observableValue, oldPort, selectedPort) -> {
+            setCheckPoints(selectedPort.getCheckPoints());
+            stopLogging(oldPort);
+            mainController.clearPortOperationLog();
+            startLogging(selectedPort);
+        }));
         setPorts(databaseService.findAllPorts());
         log.debug("Ports {}", getPorts());
     }
@@ -72,14 +71,9 @@ public class MainModel {
         this.checkPoints.setValue(observableList);
     }
 
-/*    public void setPortOperationLog(String newLogString) {
-        portOperationLog.setValue(newLogString);
-    }*/
 
     public void addStringToLog(String newLogString) {
-//        mainController.logTextAreaSetText(newLogString);
-//        mainController.replaceTextArea(50);
-        mainController.addStringToLog(newLogString, 50);
+        mainController.addStringToLog(newLogString, 100);
     }
 
     //==============================================================================================
@@ -92,10 +86,24 @@ public class MainModel {
     }
 
     public void stopReceiving() {
+        stopLogging(getSelectedPort());
         receptionService.stopReceiving(getSelectedPort());
+        getSelectedPort().setOnline(false);
+        addStringToLog("Прием остановлен!\n\n");
     }
 
     public void startReceiving() throws Exception {
         receptionService.startReceiving(getSelectedPort());
+        getSelectedPort().setOnline(true);
+        startLogging(getSelectedPort());
     }
+
+    public void startLogging(Port port) {
+        receptionService.startLogging(port);
+    }
+
+    public void stopLogging(Port port) {
+        receptionService.stopLogging(port);
+    }
+
 }
