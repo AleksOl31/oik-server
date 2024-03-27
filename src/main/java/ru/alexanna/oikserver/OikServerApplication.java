@@ -1,10 +1,12 @@
 package ru.alexanna.oikserver;
 
 import javafx.application.Application;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +26,10 @@ public class OikServerApplication extends Application {
         stage.setMinHeight(600);
         stage.centerOnScreen();
         stage.setScene(scene);
+        stage.setOnCloseRequest(windowEvent -> {
+            windowEvent.consume();
+            stage.setIconified(true);
+        });
         stage.show();
     }
 

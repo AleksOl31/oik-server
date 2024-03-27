@@ -216,7 +216,7 @@ public abstract class SerialPortReceiver implements Receiver {
         return (byte) ((value >> 8) & 0xff);
     }
 
-    public void putAcceptedBytes(Integer key, byte[] acceptedArr) {
+    protected void putAcceptedBytes(Integer key, byte[] acceptedArr) {
         receivedByteCollector.put(key, acceptedArr);
     }
 
